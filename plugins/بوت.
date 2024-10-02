@@ -1,0 +1,68 @@
+جلب الاستيراد من "عقدة جلب"
+
+دع هاندلر = Async (M، {.
+ كون، 
+ أرغ، 
+ تستخدمPrefix، 
+ الأمر. 
+}) => {
+ دع النص. 
+ إذا (args.length >= 1) { 
+ النص = args.slice (0).join (") 
+ } وإلا إذا (m.quoted & m.quoted.text) { 
+ النص = m.quoted.text 
+ } 'إلقاء "السابق: \n *.gptvoc* ما الاسلام' 
+ انتظر M.Reply (انتظر) 
+ حاول { 
+ دع res = في انتظار ChatGpt (نص) 
+ في انتظار M.Reply (Res.Content) 
+ } الصيد (هـ) { 
+ انتظر M.Reply (خطأ) 
+ } 
+}
+Handler.Help = ["GPTVOC"]
+handler.tags = ["ai"]؛
+handler.command = /^ (بوت) $/i
+Handler.Register = Handler.Limit = كاذب
+
+تصدير معالج الافتراضي.
+
+/* خط جديد */
+
+دردشة المحتوى = عدم انتماء (موجه) => {
+ const url = "https://apps.voc.ai/api/v1/plg/prompt_stream"؛ 
+
+   حاول   { 
+  استجابة كونست = في انتظار جلب (العنوان URL، {.  
+  الطريقة: "بوست"،  
+  أوراق الاعتماد: "تشمل"،  
+  الوضع: "Cors"،  
+ الرؤوس: { 
+  "نوع المحتوى": "التطبيق / JSON"  
+ }, 
+  الجسم: JSON.Stringify ({  
+  موجه.  
+ }), 
+ }); 
+
+  مدخلات كونستستسترينغ = في انتظار الرد.النص () ؛  
+  ضفة بيانات المحتوى = inputString.split ('\n\n') ؛  
+
+ const regex = / البيانات: (\{.*?\}) /g؛ 
+ مسابقات سون = []؛ 
+  السماح المباراة;  
+
+ بينما ((مباراة = regex.exec (dataArray[0])!== null) { 
+ jsonMatches.push (مباراة[1]) ؛ 
+ } 
+
+        const oregex = /"data": ({.*?})/;
+        const endsTrueArray = jsonMatches.slice(-1);
+        const output = endsTrueArray[0].match(oregex);
+
+        return output ? JSON.parse(output[1]) : null;
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        return null;
+ } 
+};
